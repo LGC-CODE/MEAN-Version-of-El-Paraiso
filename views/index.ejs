@@ -1,11 +1,236 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Neveria en tracy- Ice Cream Parlor in tracy- El Paraiso Nieves Y Raspados</title>
+		<meta name="description" content="Ice Cream Shop - Neveria" />
+		<meta name="keywords" content="mangonada, raspados, tracy, neveria, ice, cream, shop, helados, chicharon, preparado, tostilocos, fries, hot, dogs, paleta, popsicles, aguas, frescas, fresa, mango, nanche, vainilla, vanilla, tamarindo, exotic, flavors, sabores, exoticos" />
+		<meta name="author" content="Luis Constante" />
+		<!-- Bootstrap -->
+		<script src="js/modernizr.custom.js"></script>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/jquery.fancybox.css" rel="stylesheet">
+		<link href="css/flickity.css" rel="stylesheet" >
+		<link href="css/animate.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+		<link href="css/styles.css" rel="stylesheet">		
+		<link href="css/queries.css" rel="stylesheet">
+	</head>
+	<body ng-app="myApp">
+	<div class="texture-overlay"></div>
+		<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+		<!-- open/close -->
+	<div ng-controller="navCtrl">
+		<div class="row nav-wrapper">
+			<div class="col-md-6 col-sm-6 col-xs-6 text-left">
+				<a href="#/home">HOME</a>
+			</div>
+			<div ng-click="navToggle()" class="col-md-6 col-sm-6 col-xs-6 text-right navicon">
+				<p>MENU</p><a id="trigger-overlay" class="nav_slide_button nav-toggle"><span></span></a>
+			</div>
+		</div>
+		<div class="overlay overlay-boxify">
+			<nav ng-click="navToggle()">
+				<ul>
+					<li><a href="#/about"><i class="fa fa-globe"></i>About</a></li>
+					<li><a href="#/gallery"><i class="fa fa-picture-o"></i>Gallery</a></li>
+				</ul>
+				<ul>
+					<li><a href="#/info"><i class="fa fa-exclamation-circle"></i>Address</a></li>
+					<li><a href="#/home"><i class="fa fa-home"></i>Home</a></li>		
+				</ul>
+			</nav>
+		</div>
+	</div>
+		<ui-view></ui-view>
+	<script type="text/ng-template" id="/home.html">
+		<header ng-init="homeBackground()">
+			<section class="hero">
+				<div class="container">
+					<div class="row hero-content">
+						<div class="col-md-12 col-lg-12 visible-md visible-lg">
+							<img class="img-adjust animated fadeInLeft" width="43%" src="img/logo.png">
+						</div>
+						<div class="col-md-12 text-center" ng-click="soundStart()">
+							<h1 class="animated fadeInDown">El Paraiso</h1>
+							<h2>Nieves Y Raspados</h2>
+							<a href="#/gallery" class="use-btn animated fadeInUp">View Gallery</a> <a href="#/info" class="learn-btn animated fadeInUp">View Address<i class="fa fa-arrow-down"></i></a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</header>
+	</script>
+	<script type="text/ng-template" id="/info.html">
+		<div class="info animated zoomInDown">
+			<div class="container">
+				<div class="col-md-12 address">
+					<div class="col-md-6">
+						<h2>We Value and Appreciate Every Customer</h2>
+						<p>Thank You for Choosing Us!</p>
+					</div>
+					<div class="col-md-6">
+						<a href="#/about"><button class="btn btn-default">Continue</button></a>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.2837503645046!2d-121.43717234961763!3d37.75994437966286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80903d576f6d943b%3A0xeb26a334d40fb1b5!2s3244+N+Tracy+Blvd%2C+Tracy%2C+CA+95376!5e0!3m2!1sen!2sus!4v1469149401663" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+				</div>
+				<div class="col-md-6">
+					<address>
+						<h1>3244 N Tracy Blvd</h1>
+						<h1>Tracy, CA 95376</h1>
+					</address>
+					<div class="success">Email Generated Successfully</div>
+					<div class="email">
+						<form ng-submit="emailUs()">
+							<div class="form-group">
+								<label>Subject:</label>
+								<input ng-model="subject" class="form-control" type="text/plain">
+							</div>
+							<div class="form-group">
+								<label>Message:</label>
+								<input ng-model="body" class="form-control" type="text/plain">
+							</div>
+							<button type="submit" class="btn btn-default">Email Us</button> 
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script type="text/ng-template" id="/contact.html">
+		
+	</script>
+	<script type="text/ng-template" id="/about.html">
+		<section class="about" ng-init="aboutBackground()">
+			<div class="container">
+				<div class="col-md-12 text-center about-margin">
+					<h1 class="animated bounceInDown">The Best Ice Cream in Town!</h1>
+					<h3 class="animated fadeInUp">Come in and Try Our Exotic Flavors!</h3>
+					<a class="btn btn-default animated fadeIn" href="#/gallery">Continue to Gallery</a>
+				</div>
+				<div class="col-md-6">
+					<img class="about-img" width="50%" src="http://www.beyazkosk.com.tr/wp-content/gallery/dondurmalar/dondurma05.jpg">
+				</div>
+				<div class="col-md-3 text-center">
+					<h2 class="animated bounceInLeft">Wine</h2>
+					<h2 class="animated bounceInRight">Tequila</h2>
+					<h2 class="animated bounceInLeft">Walnut</h2>
+					<h2 class="animated bounceInRight">Triple Berry</h2>
+					<h2 class="animated bounceInLeft">Egg-Nog</h2>
+				</div>
+				<div class="col-md-3 text-center">
+					<h2 class="animated bounceInLeft">Wine</h2>
+					<h2 class="animated bounceInRight">Tequila</h2>
+					<h2 class="animated bounceInLeft">Walnut</h2>
+					<h2 class="animated bounceInRight">Triple Berry</h2>
+					<h2 class="animated bounceInLeft">Egg-Nog</h2>
+				</div>
+
+			</div>
+		</section>
+	</script>
+	<script type="text/ng-template" id="/gallery.html">
+		<section class="screenshots-intro">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Packed Full of Powerful Features</h1>
+						<p>We serve the best snacks in the bay area! Come and refresh yourself with a Mangonada. It is one of our most popular treat and its very tasty! We have a variety of food snacks you can eat; they are all so good! It will have you come in for more!</p>
+						<p>Like What You See? Stop by!</p>
+						<p><a href="#info" class="btn btn-default">View Address</a></p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="screenshots" id="screenshots">
+			<div class="container-fluid">
+				<div class="row">
+					<ul class="grid">
+						<li ng-repeat="pics in pictures[0].set1">
+							<figure>
+								<img ng-src="{{ pics.url }}" alt="Screenshot 01">
+								<figcaption>
+								<div class="caption-content">
+									<a ng-href="{{ pics.url }}" class="single_image">
+										<i class="fa fa-search"></i><br>
+										<p>Optimised For Design</p>
+									</a>
+								</div>
+								</figcaption>
+							</figure>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="row">   <!--4 pics each-->
+					<ul class="grid">
+						<li ng-repeat="pics in pictures[1].set2">
+							<figure>
+								<img ng-src="{{ pics.url }}" alt="Screenshot 01">
+								<figcaption>
+								<div class="caption-content">
+									<a ng-href="{{ pics.url }}" class="single_image">
+										<i class="fa fa-search"></i><br>
+										<p>Multi-Purpose Design</p>
+									</a>
+								</div>
+								</figcaption>
+							</figure>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</script>
+		<footer ng-controller="navCtrl">
+			<div class="row nav-wrapper">
+				<div class="col-md-12 col-sm-12 col-xs-12 text-center">
+					<p>El Paraiso Nieves Y Raspados 2016</p>
+				</div>
+				<div class="small-text col-md-6 col-sm-6 col-xs-6 text-left">
+					<p>Suave Standpipe Kevin MacLeod (incompetech.com)
+					Licensed under Creative Commons: By Attribution 3.0 License
+					http://creativecommons.org/licenses/by/3.0/</p>
+				</div>
+				<div ng-click="navToggle()" class="col-md-6 col-sm-6 col-xs-6 text-right navicon">
+					<p>MENU</p><br><a id="trigger-overlay" class="nav_slide_button nav-toggle"><span></span></a>
+				</div>
+			</div>
+		</footer> 
+	
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+		<script src="js/min/toucheffects-min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="js/flickity.pkgd.min.js"></script>
+		<script src="js/jquery.fancybox.pack.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/retina.js"></script>
+		<script src="js/waypoints.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+		<script src="js/angularMod.js"></script>
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+		<script>
+		(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+		e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+		e.src='//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+		ga('create','CODE-HERE-#');ga('send','pageview');
+		</script>
+		
+	</body>
+</html

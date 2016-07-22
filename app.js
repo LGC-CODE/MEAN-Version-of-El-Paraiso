@@ -4,6 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+require('./models/logUser');
+
+mongoose.connect('mongodb://localhost/admin' , function(err){
+
+  console.log('MONGODB_URI:', process.env.MONGODB_URI);
+});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

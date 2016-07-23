@@ -210,7 +210,7 @@ app.controller('navCtrl', ['$scope', function($scope){
 	}
 }]);
 
-app.controller('mainCtrl', ['$scope', 'object', function($scope, object){
+app.controller('mainCtrl', ['$scope', 'object', function($scope, object){ //gallery
 
 	$scope.random = function() {
         return 0.5 - Math.random();
@@ -244,12 +244,27 @@ app.controller('mainCtrl', ['$scope', 'object', function($scope, object){
 	object.getAllPics();
 	$scope.pictures = object.pictures;
 
+	$scope.galleryBackground = function(){
+		$('.texture-overlay')
+			.css({ 
+				'background-color' : 'rgba(0, 29, 255, 0.21)',
+				'opacity': '1' 
+			});
+
+		$('body')
+			.css({ 
+				'background': 'url("img/sky.jpg")', 
+				'background-size' : 'cover', 
+				'background-repeat': 'no-repeat',
+				'background-attachment': 'fixed'
+			 });
+	}
 	
 
 }]);
 
 app.controller('homeCtrl', ['$scope', function($scope){
-	var audio = new Audio('http://incompetech.com/music/royalty-free/mp3-royaltyfree/Suave%20Standpipe.mp3');
+	var audio = new Audio('../mp3/jazz.mp3');
 	audio.volume = 0.2;
 
 	var comments = [
@@ -265,7 +280,7 @@ app.controller('homeCtrl', ['$scope', function($scope){
 		$('.texture-overlay')
 			.css({ 
 				'background': 'url("img/thread.png")', 
-				'background-color' : 'rgba(34, 61, 110, 0.34)',
+				'background-color' : 'rgba(69, 101, 255, 0.25)',
 				'opacity': '1' 
 			});
 
@@ -279,7 +294,12 @@ app.controller('homeCtrl', ['$scope', function($scope){
 	}
 
 	$scope.soundStart = function() {
-        audio.play();
+
+        if (audio) {
+        	audio.play();
+        } else if( audio.play() ){
+        	audio.pause();
+        }
 	}
 
 }]);
@@ -332,6 +352,23 @@ app.controller('privateCtrl',['$scope', 'auth', '$state', 'object', function($sc
 
 	$scope.hideAlert = function(){
 		$('.success-btn').fadeIn(1500).delay(4500).fadeOut(1500);
+	}
+
+	$scope.privateBackground = function(){
+		$('.texture-overlay')
+			.css({ 
+				'background': 'none', 
+				'background-color' : 'rgba(34, 61, 110, 0.34)',
+				'opacity': '1' 
+			});
+
+		$('body')
+			.css({ 
+				'background': 'url("img/electro.jpg")', 
+				'background-size' : 'cover', 
+				'background-repeat': 'no-repeat',
+				'background-attachment': 'fixed'
+			 });
 	}
 
 }]);

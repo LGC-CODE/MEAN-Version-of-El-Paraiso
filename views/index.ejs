@@ -33,6 +33,7 @@
 		<div class="row nav-wrapper">
 			<div class="col-md-6 col-sm-6 col-xs-6 text-left">
 				<a href="#/home">HOME</a>
+				<div id="google_translate_element"></div>
 			</div>
 			<div ng-click="navToggle()" class="col-md-6 col-sm-6 col-xs-6 text-right navicon">
 				<p>MENU</p><a id="trigger-overlay" class="nav_slide_button nav-toggle"><span></span></a>
@@ -83,7 +84,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.2837503645046!2d-121.43717234961763!3d37.75994437966286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80903d576f6d943b%3A0xeb26a334d40fb1b5!2s3244+N+Tracy+Blvd%2C+Tracy%2C+CA+95376!5e0!3m2!1sen!2sus!4v1469149401663" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.2837503645046!2d-121.43717234961763!3d37.75994437966286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80903d576f6d943b%3A0xeb26a334d40fb1b5!2s3244+N+Tracy+Blvd%2C+Tracy%2C+CA+95376!5e0!3m2!1sen!2sus!4v1469149401663" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
 				<div class="col-md-6">
 					<address>
@@ -128,7 +129,7 @@
 	</script>
 	<script type="text/ng-template" id="/private.html">
 		
-			<div ng-show="isLoggedIn()" class="private">
+			<div ng-init="privateBackground()" ng-show="isLoggedIn()" class="private">
 			<div ng-show="alert" class="success-btn alert alert-warning">{{ alert.message }}</div>
 			<div class="container col-md-offset-4">
 					<form ng-submit="getUrl()" class="form-group col-md-4">						
@@ -150,28 +151,44 @@
 					<a class="btn btn-default animated fadeIn" href="#/gallery">Continue to Gallery</a>
 				</div>
 				<div class="col-md-6">
-					<img class="about-img" width="50%" src="http://www.beyazkosk.com.tr/wp-content/gallery/dondurmalar/dondurma05.jpg">
+					<img class="about-img animated bounceInLeft" width="50%" src="img/mangonada.png">
 				</div>
 				<div class="col-md-3 text-center">
-					<h2 class="animated bounceInLeft">Wine</h2>
-					<h2 class="animated bounceInRight">Tequila</h2>
-					<h2 class="animated bounceInLeft">Walnut</h2>
-					<h2 class="animated bounceInRight">Triple Berry</h2>
-					<h2 class="animated bounceInLeft">Egg-Nog</h2>
+					<h2 class="animated bounceInLeft">Angel Kiss</h2>
+					<h2 class="animated bounceInRight">Cappuccino</h2>
+					<h2 class="animated bounceInLeft">Coconut</h2>
+					<h2 class="animated bounceInRight">Bubble Gum</h2>
+					<h2 class="animated bounceInLeft">Chocolate</h2>
+					<h2 class="animated bounceInRight">Mamey</h2>
+					<h2 class="animated bounceInLeft">Mango</h2>
+					<h2 class="animated bounceInRight">Nanche</h2>
+					<h2 class="animated bounceInLeft">Pecan</h2>
+					<h2 class="animated bounceInRight">Pistachio</h2>
+					<h2 class="animated bounceInLeft">Pine Nut</h2>
+					<h2 class="animated bounceInRight">Vanilla</h2>
 				</div>
 				<div class="col-md-3 text-center">
-					<h2 class="animated bounceInLeft">Wine</h2>
+					<h2 class="animated bounceInLeft">Caramel</h2>
+					<h2 class="animated bounceInRight">Chongos</h2>
+					<h2 class="animated bounceInLeft">Strawberry</h2>
+					<h2 class="animated bounceInRight">Dry Fruit</h2>
+					<h2 class="animated bounceInLeft">Guava</h2>
+					<h2 class="animated bounceInRight">Gansito</h2>
+					<h2 class="animated bounceInLeft">Sourop</h2>
+					<h2 class="animated bounceInRight">Cheese</h2>
+					<h2 class="animated bounceInLeft">Eggnog</h2>
+					<h2 class="animated bounceInRight">Cookies and Cream</h2>
+					<h2 class="animated bounceInLeft">Lemon</h2>
 					<h2 class="animated bounceInRight">Tequila</h2>
-					<h2 class="animated bounceInLeft">Walnut</h2>
-					<h2 class="animated bounceInRight">Triple Berry</h2>
-					<h2 class="animated bounceInLeft">Egg-Nog</h2>
+					<h2 class="animated bounceInLeft">Tamarindo</h2>
+
 				</div>
 
 			</div>
 		</section>
 	</script>
 	<script type="text/ng-template" id="/gallery.html">
-		<section class="screenshots-intro">
+		<section ng-init="galleryBackground()" class="screenshots-intro">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
@@ -208,7 +225,7 @@
 		<footer ng-controller="navCtrl">
 			<div class="row nav-wrapper">
 				<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-					<p>El Paraiso Nieves Y Raspados 2016</p>
+					<p>© El Paraiso Nieves Y Raspados 2016</p>
 				</div>
 				<div class="small-text col-md-6 col-sm-6 col-xs-6 text-left">
 					<p>Suave Standpipe Kevin MacLeod (incompetech.com)
@@ -243,6 +260,11 @@
 		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
 		ga('create','CODE-HERE-#');ga('send','pageview');
 		</script>
+		<script type="text/javascript">
+		function googleTranslateElementInit() {
+		  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'de,en,es,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false, multilanguagePage: true, gaTrack: true, gaId: 'UA-63043996-1'}, 'google_translate_element');
+		}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 		
 	</body>
 </html

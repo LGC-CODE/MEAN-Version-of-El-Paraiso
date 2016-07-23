@@ -1,21 +1,32 @@
 var mongoose = require('mongoose');
+var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 
 var adminSchema = new mongoose.Schema({
-	name: {type: String, lowercase: true, unique: true},
-	token: {type: String, unique: true}
+	username: {type: String, lowercase: true, unique: true},
+	hash: String,
+	salt: String
 });
+
+adminSchema.methods.setPassword = function(password){
+	this.salt = crypto.randomBytes(16).toString('hex');
+
+	this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+};
+
+adminSchema.methods.validPassword = function(password){
+	var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+
+	return this.hash === hash;
+};
 
 adminSchema.methods.generateJWT =  function(){
 	var today =  new Date();
 	var exp = new Date(today);
 	exp.setDate(today.getDate() + 60);
-	console.log('this is age in jwt', this.displayName);
 	return jwt.sign({
 		_id: this._id,
 		username: this.username,
-		age: this.age,
-		pictureUrl: this.pictureUrl,
-		displayName: this.displayName,
 		exp: parseInt(exp.getTime() / 1000)
 	}, 'SECRET');
 };

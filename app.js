@@ -5,10 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
 
 require('./models/logUser');
+require('./models/picModel');
+require('./config/passport');
 
-mongoose.connect('mongodb://localhost/admin' , function(err){
+mongoose.connect('mongodb://admin:Gokussj6@ds027145.mlab.com:27145/heroku_dxf2gn5b' , function(err){
 
   console.log('MONGODB_URI:', process.env.MONGODB_URI);
 });
@@ -29,6 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);

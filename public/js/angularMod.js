@@ -1,5 +1,92 @@
 var app = angular.module('myApp',['ui.router']);
 
+app.factory('object', ['$http', 'auth', function($http, auth){ //creating service syntax
+	var o = {
+		pictures: [
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'},
+			{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg', description: 'Helado de Chocolate'}		
+		],
+		alert: []
+	}
+
+	o.getAllPics = function(){
+		return $http.get('/allPictures').success(function(data){
+			angular.copy(data, o.pictures);
+		});
+	};
+
+	o.createPic = function(picData){
+		if( auth.isLoggedIn() ){
+			return $http.post('/savePictures', picData).success(function(data){
+				o.pictures.unshift(data);
+			});
+		}
+	}
+
+	return o;
+
+}]);
+
+app.factory('auth', ['$http', '$window', function($http, $window){
+	var auth = {};
+
+	auth.saveToken =  function(token){
+		$window.localStorage['rockstar-token'] = token;
+	};
+
+	auth.getToken = function(){
+		return $window.localStorage['rockstar-token'];
+
+	};
+
+	auth.isLoggedIn = function(){
+		var token = auth.getToken();
+		if(token){
+			var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+			return payload.exp > Date.now() / 1000;
+		} else {
+			return false;
+		}
+
+	};
+
+	auth.currentUser =  function(){
+		if(auth.isLoggedIn()){
+			var token = auth.getToken();
+			var payload = JSON.parse($window.atob(token.split('.')[1]));
+			var info = {
+				name: payload.username
+			}
+			return info;
+		}
+	};
+
+	auth.register =  function(logUsers){
+		return $http.post('/register', logUsers).success(function(data){
+			auth.saveToken(data.token);
+		});
+	};
+
+	auth.logIn = function(logUsers){
+		return $http.post('/login', logUsers).success(function(data){
+			auth.saveToken(data.token);
+		});
+	};
+
+	auth.logOut =  function(){
+		$window.localStorage.removeItem('rockstar-token');
+	};
+
+	return auth;
+}]);
+
 app.config([
 		'$stateProvider',
 		'$urlRouterProvider',
@@ -33,10 +120,10 @@ app.config([
 		function($stateProvider, $urlRouterProvider){
 
 			$stateProvider
-				.state('contact', {
-					url: '/contact',
-					templateUrl: '/contact.html',
-					controller: 'mainCtrl'
+				.state('loginUp', {
+					url: '/loginUp',
+					templateUrl: '/loginUp.html',
+					controller: 'logCtrl'
 				});
 		}]);
 
@@ -63,6 +150,19 @@ app.config([
 					url: '/gallery',
 					templateUrl: '/gallery.html',
 					controller: 'mainCtrl'
+				});
+		}]);
+
+app.config([
+		'$stateProvider',
+		'$urlRouterProvider',
+		function($stateProvider, $urlRouterProvider){
+
+			$stateProvider
+				.state('private', {
+					url: '/private',
+					templateUrl: '/private.html',
+					controller: 'privateCtrl'
 				});
 		}]);
 
@@ -110,7 +210,11 @@ app.controller('navCtrl', ['$scope', function($scope){
 	}
 }]);
 
-app.controller('mainCtrl', ['$scope', function($scope){
+app.controller('mainCtrl', ['$scope', 'object', function($scope, object){
+
+	$scope.random = function() {
+        return 0.5 - Math.random();
+    };
 
 	$scope.loadPacks = function(){
 		$('.wp2').waypoint(function() {
@@ -136,27 +240,11 @@ app.controller('mainCtrl', ['$scope', function($scope){
 
 		$('.email').fadeOut(1500);
 		$('.success').delay(1000).fadeIn(1000);
-	}
+	};
+	object.getAllPics();
+	$scope.pictures = object.pictures;
 
-	$scope.pictures = [
-		{ 
-			set1: [
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'}
-			]
-		},
-		{
-			set2: [
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'},
-				{url: 'http://img1.beachbodyimages.com/beachbody/image/upload/v1435693633/beachbodyblog/Chocolate-Peanut-Butter-Shakeology-Ice-Cream.jpg'}
-			]
-		}
-		
-	];
+	
 
 }]);
 
@@ -192,6 +280,58 @@ app.controller('homeCtrl', ['$scope', function($scope){
 
 	$scope.soundStart = function() {
         audio.play();
+	}
+
+}]);
+
+app.controller('logCtrl',['$scope', 'auth', '$state', function($scope, auth, $state){
+	$scope.getUser =  function(){
+			var credentials = { username: $scope.username, password: $scope.password }
+
+			auth.logIn(credentials).error(function(error){
+				$scope.error = error;
+			}).then(function(){
+				$state.go('private');
+			});
+		};
+
+	$scope.isLoggedIn = auth.isLoggedIn;
+
+	if( auth.isLoggedIn() ){
+		$state.go('private');
+	}
+}]);
+
+app.controller('privateCtrl',['$scope', 'auth', '$state', 'object', function($scope, auth, $state, object){
+	$scope.isLoggedIn = auth.isLoggedIn;
+	$scope.logOut = function(){
+		auth.logOut();
+		$state.go('loginUp');
+	}
+
+	$scope.alert = "";
+	$scope.alertSuccess = "";
+
+	$scope.getUrl = function(){
+		if(!$scope.url || $scope.url == undefined || $scope.url == ""){ 
+			$scope.alert = {message: 'llene todo el formulario'};
+			return; 
+		}
+		if(!$scope.des || $scope.des == undefined || $scope.des == ""){ 
+			$scope.alert = {message: 'llene todo el formulario'};
+			return; 
+		}
+
+		var picData = { url: $scope.url, description: $scope.des }
+		object.createPic(picData);
+		// console.log('url' , $scope.url, 'des' , $scope.des)
+		$scope.alert = {message: 'Foto Se Subio!'};
+		$scope.url = "";
+		$scope.des = "";
+	}
+
+	$scope.hideAlert = function(){
+		$('.success-btn').fadeIn(1500).delay(4500).fadeOut(1500);
 	}
 
 }]);

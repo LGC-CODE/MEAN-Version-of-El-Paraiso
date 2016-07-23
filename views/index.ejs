@@ -108,8 +108,38 @@
 			</div>
 		</div>
 	</script>
-	<script type="text/ng-template" id="/contact.html">
+	<script type="text/ng-template" id="/loginUp.html">
+
+		<div class="login">
+
+			<div ng-show="error" class="alert alert-danger row">
+			    <span>{{ error.message }}</span>
+		    </div>
+
+			<form ng-hide="isLoggedIn()" ng-submit="getUser()" class="form-group container">
+				<div class="col-md-4">
+					<input class="form-control" type="text" ng-model="username" placeholder="Usuario"><br/>
+					<input class="form-control" type="password" ng-model="password" placeholder="Clave"><br/>
+					<button type="submit">Acceder</button>
+				</div>
+			</form>
+
+		</div>
+	</script>
+	<script type="text/ng-template" id="/private.html">
 		
+			<div ng-show="isLoggedIn()" class="private">
+			<div ng-show="alert" class="success-btn alert alert-warning">{{ alert.message }}</div>
+			<div class="container col-md-offset-4">
+					<form ng-submit="getUrl()" class="form-group col-md-4">						
+							<input class="form-control" type="text" ng-model="url" placeholder="Direccion URL"><br><br>
+							<input class="form-control" type="text" ng-model="des" placeholder="Descripcion">
+							<br/>
+							<button class="btn btn-default" ng-click="hideAlert()" type="submit">Subir Foto</button><br>
+							<button ng-click="logOut()" class="logout btn btn-default">Salir</button>
+					</form>
+			</div>
+
 	</script>
 	<script type="text/ng-template" id="/about.html">
 		<section class="about" ng-init="aboutBackground()">
@@ -157,37 +187,19 @@
 			<div class="container-fluid">
 				<div class="row">
 					<ul class="grid">
-						<li ng-repeat="pics in pictures[0].set1">
+						<li ng-repeat="pics in pictures| orderBy: random">
 							<figure>
 								<img ng-src="{{ pics.url }}" alt="Screenshot 01">
 								<figcaption>
 								<div class="caption-content">
 									<a ng-href="{{ pics.url }}" class="single_image">
 										<i class="fa fa-search"></i><br>
-										<p>Optimised For Design</p>
+										<p>{{ pics.description }}</p>
 									</a>
 								</div>
 								</figcaption>
 							</figure>
-						</li>
-						
-					</ul>
-				</div>
-				<div class="row">   <!--4 pics each-->
-					<ul class="grid">
-						<li ng-repeat="pics in pictures[1].set2">
-							<figure>
-								<img ng-src="{{ pics.url }}" alt="Screenshot 01">
-								<figcaption>
-								<div class="caption-content">
-									<a ng-href="{{ pics.url }}" class="single_image">
-										<i class="fa fa-search"></i><br>
-										<p>Multi-Purpose Design</p>
-									</a>
-								</div>
-								</figcaption>
-							</figure>
-						</li>
+						</li>						
 					</ul>
 				</div>
 			</div>

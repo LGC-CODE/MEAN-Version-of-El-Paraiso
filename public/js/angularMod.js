@@ -247,7 +247,7 @@ app.controller('mainCtrl', ['$scope', 'object', function($scope, object){ //gall
 	$scope.galleryBackground = function(){
 		$('.texture-overlay')
 			.css({ 
-				'background-color' : 'rgba(0, 29, 255, 0.21)',
+				'background-color' : 'rgba(42, 171, 153, 0.6)',
 				'opacity': '1' 
 			});
 
@@ -263,11 +263,14 @@ app.controller('mainCtrl', ['$scope', 'object', function($scope, object){ //gall
 
 }]);
 
-app.controller('homeCtrl', ['$scope', function($scope){
+app.controller('homeCtrl', ['$scope','$http', function($scope,$http){
 	var audio = new Audio('../mp3/jazz.mp3');
+	$scope.name = "";
+	$scope.city = "";
+	$scope.comment = "";
 	audio.volume = 0.2;
 
-	var comments = [
+	$scope.comments = [
 		{name: 'luis', city: 'oakland', comment: 'this is a really good ice cream parlor!!!'},
 		{name: 'john', city: 'san leandro', comment: 'this is a really good ice cream parlor!!!'},
 		{name: 'bernie', city: 'vallejo', comment: 'this is a really good ice cream parlor!!!'},
@@ -276,11 +279,61 @@ app.controller('homeCtrl', ['$scope', function($scope){
 		{name: 'mimi', city: 'san leandro', comment: 'this is a really good ice cream parlor!!!'}
 	];
 
+	$scope.quantity = 2;
+
+	$scope.loadMore = function(){
+		$scope.quantity += 4;
+	}
+
+	var getAllComments = function(){
+		return $http.get('/allComments').success(function(data){
+			angular.copy(data, $scope.comments);
+		});
+	};
+
+	var createComment = function(commentData){
+		return $http.post('/saveComments', commentData).success(function(data){
+			$scope.comments.unshift(data);
+		});
+	}
+
+	$scope.alert = "";
+
+	$scope.writeComment = function(){
+		if(!$scope.name){ $scope.alert = { message: 'fill in your name' }; return;}
+		if(!$scope.city){ $scope.alert = { message: 'fill in your city' }; return;}
+		if(!$scope.comment){ $scope.alert = { message: 'type your comment' }; return;}
+
+		var data = {
+				name: $scope.name, 
+				city: $scope.city, 
+				comment: $scope.comment
+			}
+
+		createComment(data);
+
+		$scope.alert = {message: 'Thanks! We Appreciate Your Comments'}
+
+		$scope.name = "";
+		$scope.city = "";
+		$scope.comment = "";
+	}
+
+	$scope.hideAlert = function(){
+		$('.alert').fadeIn(1500).delay(4500).fadeOut(1500);
+	}
+
+	getAllComments();
+	
+	$scope.random = function() {
+        return 0.5 - Math.random();
+    };
+
 	$scope.homeBackground = function(){
 		$('.texture-overlay')
 			.css({ 
 				'background': 'url("img/thread.png")', 
-				'background-color' : 'rgba(69, 101, 255, 0.25)',
+				'background-color' : 'rgba(190, 218, 255, 0.5)',
 				'opacity': '1' 
 			});
 

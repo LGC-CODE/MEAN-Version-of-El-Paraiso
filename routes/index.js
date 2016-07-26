@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var admin = mongoose.model('adminModel');
 var picModel = mongoose.model('picModel');
+var cmnt = mongoose.model('commentModel');
 var jwt = require('express-jwt');
 var passport = require('passport');
 var auth =  jwt({ secret: 'SECRET', userProperty: 'payload' });
@@ -70,5 +71,30 @@ router.post('/savePictures', function(req, res, next){
 		res.status(200).json({ message: 'success' });
 	});
 });
+
+router.get('/allComments', function( req, res){
+	cmnt.find(function(err, comments){
+		
+		if(err){ return next(err); }
+
+		res.json(comments);
+
+	});
+});
+
+router.post('/saveComments', function(req, res, next){
+	var model = new cmnt();
+
+	model.name = req.body.name;
+	model.city = req.body.city;
+	model.comment = req.body.comment;
+
+	model.save(function(err, returnedComments){
+		if(err){ return next(err); }
+		res.status(200).json(returnedComments);
+	});
+});
+
+
 
 module.exports = router;

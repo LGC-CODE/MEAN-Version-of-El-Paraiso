@@ -9,6 +9,7 @@ var passport = require('passport');
 
 require('./models/logUser');
 require('./models/picModel');
+require('./models/comments');
 require('./config/passport');
 
 mongoose.connect('mongodb://admin:Gokussj6@ds027145.mlab.com:27145/heroku_dxf2gn5b' , function(err){

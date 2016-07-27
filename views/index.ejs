@@ -30,6 +30,12 @@
 		<![endif]-->
 		<!-- open/close -->
 	<div ng-controller="navCtrl">
+		<div ng-click="closeBanner()" class="banner-overlay">
+			<center class="visible-md visible-lg">
+				<h2>Click to Close   X</h2>
+				<img class="animated bounceIn" width="100%" src="/img/banner.jpg" />
+			</center>
+		</div>
 		<div class="row nav-wrapper">
 			<div class="col-md-6 col-sm-6 col-xs-6 text-left">
 				<a href="#/home">HOME</a>

@@ -208,6 +208,10 @@ app.controller('navCtrl', ['$scope', function($scope){
 		$(".nav-toggle").toggleClass("active");
 		$(".overlay-boxify").toggleClass("open");
 	}
+
+	$scope.closeBanner = function(){
+		$('.banner-overlay').fadeOut(2300).css('display','none !important');
+	}
 }]);
 
 app.controller('mainCtrl', ['$scope', 'object', function($scope, object){ //gallery
